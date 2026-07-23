@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -26,5 +25,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf(transpile(string(file)))
+	code := transpile(string(file))
+
+	os.Mkdir("out", 0755)
+	err = os.WriteFile("out/temp.go", []byte(code), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
