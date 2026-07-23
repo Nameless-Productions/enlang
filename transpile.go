@@ -36,7 +36,7 @@ func transpile(code string) (string, []string) {
 			switch toolUse.Name {
 			case "install":
 				var input struct {
-					name string `json:"name"`
+					Name string `json:"name"`
 				}
 
 				if err := json.Unmarshal(toolUse.Input, &input); err != nil {
@@ -44,7 +44,7 @@ func transpile(code string) (string, []string) {
 					continue
 				}
 
-				dependencies = append(dependencies, input.name)
+				dependencies = append(dependencies, input.Name)
 			}
 		}
 	}
