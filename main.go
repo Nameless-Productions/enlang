@@ -26,18 +26,33 @@ func main() {
 		log.Fatal(err)
 	}
 
-	code := transpile(string(file))
+	code, dependencies := transpile(string(file))
 
 	os.Mkdir("out", 0755)
-	err = os.WriteFile("out/temp.go", []byte(code), 0644)
-	if err != nil {
-		log.Fatal(err)
+	removeTempFiles()
+	initProject()
+
+	for _, dependencie := range dependencies {
+		installDependencie(dependencie)
 	}
 
-	cmd := exec.Command("go", "build", "-o", "out/binary", "out/temp.go");
-	_, err = cmd.CombinedOutput()
+	err = os.WriteFile("out/main.go", []byte(code), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
-	os.Remove("out/temp.go")
+	tidyCommand()
+
+	cmd := exec.Command("go", "build", "-o", "binary", "main.go");
+	cmd.Dir = "out/"
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatalf("go build failed: %v\n%s", err, out)
+	}
+	removeTempFiles()
+}
+
+func removeTempFiles() {
+	os.Remove("out/main.go")
+	os.Remove("out/go.sum")
+	os.Remove("out/go.mod")
 }
