@@ -28,6 +28,7 @@ func main() {
 
 	code, dependencies := transpile(string(file))
 
+	os.Mkdir("out", 0755)
 	removeTempFiles()
 	initProject()
 
@@ -35,7 +36,6 @@ func main() {
 		installDependencie(dependencie)
 	}
 
-	os.Mkdir("out", 0755)
 	err = os.WriteFile("out/temp.go", []byte(code), 0644)
 	if err != nil {
 		log.Fatal(err)
