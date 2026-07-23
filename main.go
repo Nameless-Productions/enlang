@@ -28,6 +28,9 @@ func main() {
 
 	code := transpile(string(file))
 
+	removeTempFiles()
+	initProject()
+
 	os.Mkdir("out", 0755)
 	err = os.WriteFile("out/temp.go", []byte(code), 0644)
 	if err != nil {
@@ -39,5 +42,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	os.Remove("out/temp.go")
+	removeTempFiles()
+}
+
+func removeTempFiles() {
+	os.Remove("out/main.go")
+	os.Remove("out/go.sum")
+	os.Remove("out/go.mod")
 }
