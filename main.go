@@ -36,12 +36,12 @@ func main() {
 		installDependencie(dependencie)
 	}
 
-	err = os.WriteFile("out/temp.go", []byte(code), 0644)
+	err = os.WriteFile("out/main.go", []byte(code), 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	cmd := exec.Command("go", "build", "-o", "out/binary", "out/temp.go");
+	cmd := exec.Command("go", "build", "-o", "out/binary", "out/main.go");
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatalf("go build failed: %v\n%s", err, out)
