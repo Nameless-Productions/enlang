@@ -21,6 +21,7 @@ func transpile(code string) (string, []string) {
 			{Text: systemTxt},
 		},
 		Model: "claude-haiku-4-5",
+		Tools: getTools(),
 	})
 	if err != nil {
 		log.Fatal(err)
