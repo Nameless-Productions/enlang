@@ -39,4 +39,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	os.Remove("out/temp.go")
 }
