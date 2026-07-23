@@ -23,5 +23,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf(string(file))
+	fmt.Printf(transpile(string(file)))
 }
