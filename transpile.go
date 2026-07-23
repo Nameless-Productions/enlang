@@ -19,6 +19,7 @@ func transpile(code string) string {
 		System: []anthropic.TextBlockParam{
 			{Text: systemTxt},
 		},
+		Model: "claude-haiku-4-5",
 	})
 	if err != nil {
 		log.Fatal(err)
