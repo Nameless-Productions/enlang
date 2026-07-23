@@ -2,8 +2,8 @@ package main
 
 import "github.com/anthropics/anthropic-sdk-go"
 
-func getTools() []anthropic.ToolParam {
-	return []anthropic.ToolParam{
+func getTools() []anthropic.ToolUnionParam {
+	toolParams := []anthropic.ToolParam{
 		{
 			Name: "install",
 			Description: anthropic.String("Install a go dependencie (a go get command)"),
@@ -17,4 +17,11 @@ func getTools() []anthropic.ToolParam {
 			},
 		},
 	}
+
+	tools := make([]anthropic.ToolUnionParam, len(toolParams))
+	for i, tp := range toolParams {
+		tools[i] = anthropic.ToolUnionParam{OfTool: &tp}
+	}
+
+	return tools
 }
