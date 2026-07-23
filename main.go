@@ -5,9 +5,12 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
 	args := os.Args[1:]
 
 	if len(args) == 0 {
