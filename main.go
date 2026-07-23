@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/joho/godotenv"
@@ -29,6 +30,12 @@ func main() {
 
 	os.Mkdir("out", 0755)
 	err = os.WriteFile("out/temp.go", []byte(code), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cmd := exec.Command("go", "build", "-o", "out/binary", "out/temp.go");
+	_, err = cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
 	}
