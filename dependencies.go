@@ -15,6 +15,7 @@ func initProject() {
 
 func installDependencie(name string) {
 	cmd := exec.Command("go", "get", name);
+	cmd.Dir = "out/"
 	_, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
