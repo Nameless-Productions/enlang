@@ -22,3 +22,12 @@ func installDependencie(name string) {
 		log.Fatalf("go get %s failed: %v\n%s", name, err, out)
 	}
 }
+
+func tidyCommand() {
+	cmd := exec.Command("go", "mod", "tidy");
+	cmd.Dir = "out/"
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatalln("Error while running tidy cmd: ", out, err)
+	}
+}

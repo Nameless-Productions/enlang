@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	tidyCommand()
 
 	cmd := exec.Command("go", "build", "-o", "out/binary", "out/main.go");
 	out, err := cmd.CombinedOutput()
