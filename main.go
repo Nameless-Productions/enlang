@@ -42,7 +42,8 @@ func main() {
 	}
 	tidyCommand()
 
-	cmd := exec.Command("go", "build", "-o", "out/binary", "out/main.go");
+	cmd := exec.Command("go", "build", "-o", "binary", "main.go");
+	cmd.Dir = "out/"
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatalf("go build failed: %v\n%s", err, out)
