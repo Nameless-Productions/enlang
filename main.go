@@ -42,9 +42,9 @@ func main() {
 	}
 
 	cmd := exec.Command("go", "build", "-o", "out/binary", "out/temp.go");
-	_, err = cmd.CombinedOutput()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("go build failed: %v\n%s", err, out)
 	}
 	removeTempFiles()
 }
