@@ -1,5 +1,5 @@
 .env
-*.el
+test.el
 out/
 
 *.exe
