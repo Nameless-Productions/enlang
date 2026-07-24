@@ -60,7 +60,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("go build failed: %v\n%s", err, out)
 	}
-	removeTempFiles()
+	removeTempFiles(fileNames)
 }
 
 func removeTempFiles(files []string) {
