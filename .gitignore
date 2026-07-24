@@ -1,6 +1,5 @@
 .env
 test.el
-out/
 
 *.exe
 enlang
