@@ -8,7 +8,12 @@ import (
 	"github.com/anthropics/anthropic-sdk-go"
 )
 
-func transpile(code string) (string, []string) {
+type NewFile struct {
+	name string
+	content string
+}
+
+func transpile(code string) ([]NewFile, []string) {
 	client := getClient()
 	_ = client
 
@@ -25,11 +30,6 @@ func transpile(code string) (string, []string) {
 	})
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	type NewFile struct {
-		name string
-		content string
 	}
 
 	dependencies := []string{}
@@ -71,5 +71,5 @@ func transpile(code string) (string, []string) {
 		}
 	}
 
-	return msg.Content[0].Text, dependencies
+	return files, dependencies
 }
