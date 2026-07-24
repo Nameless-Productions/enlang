@@ -27,7 +27,13 @@ func transpile(code string) (string, []string) {
 		log.Fatal(err)
 	}
 
+	type NewFile struct {
+		name string
+		content string
+	}
+
 	dependencies := []string{}
+	var files []NewFile = []NewFile{}
 
 	for _, block := range msg.Content {
 		if toolUse, ok := block.AsAny().(anthropic.ToolUseBlock); ok {
@@ -45,6 +51,22 @@ func transpile(code string) (string, []string) {
 				}
 
 				dependencies = append(dependencies, input.Name)
+
+			case "new-file":
+				var input struct {
+					Name string `json:"name"`
+					Content string `json:"content"`
+				}
+
+				if err := json.Unmarshal(toolUse.Input, &input); err != nil {
+					log.Println("Error while parsing a tool usage")
+					continue
+				}
+
+				files = append(files, NewFile{
+					name: input.Name,
+					content: input.Content,
+				})
 			}
 		}
 	}
