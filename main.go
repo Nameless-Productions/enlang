@@ -34,8 +34,8 @@ func main() {
 		fileNames = append(fileNames, file.name)
 	}
 
+	os.Remove("out")
 	os.Mkdir("out", 0755)
-	removeTempFiles(fileNames)
 	initProject()
 
 	for _, dependencie := range dependencies {
