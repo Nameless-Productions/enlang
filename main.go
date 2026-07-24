@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -34,6 +35,7 @@ func main() {
 
 	for _, dependencie := range dependencies {
 		installDependencie(dependencie)
+		fmt.Printf("Installed %s", dependencie)
 	}
 
 	err = os.WriteFile("out/main.go", []byte(code), 0644)
