@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -26,33 +27,52 @@ func main() {
 		log.Fatal(err)
 	}
 
-	code, dependencies := transpile(string(file))
+	files, dependencies := transpile(string(file))
 
+	fileNames := make([]string, 0, len(files))
+	for _, file := range files {
+		fileNames = append(fileNames, file.name)
+	}
+
+	os.Remove("out")
 	os.Mkdir("out", 0755)
-	removeTempFiles()
 	initProject()
 
 	for _, dependencie := range dependencies {
 		installDependencie(dependencie)
+		fmt.Printf("Installed %s", dependencie)
 	}
 
-	err = os.WriteFile("out/main.go", []byte(code), 0644)
-	if err != nil {
-		log.Fatal(err)
+
+	for _, file := range files {
+		err = os.WriteFile(fmt.Sprintf("out/%s", file.name), []byte(file.content), 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Created %s", file.name)
 	}
+
 	tidyCommand()
 
-	cmd := exec.Command("go", "build", "-o", "binary", "main.go");
+	cmd := exec.Command("go", "build", "-o", "binary", ".");
 	cmd.Dir = "out/"
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatalf("go build failed: %v\n%s", err, out)
 	}
-	removeTempFiles()
+
+	_, debug := os.LookupEnv("DEBUG")
+
+	if !debug {
+		removeTempFiles(fileNames)
+	}
 }
 
-func removeTempFiles() {
-	os.Remove("out/main.go")
+func removeTempFiles(files []string) {
+	for _, file := range files {
+		os.Remove(fmt.Sprintf("out/%s", file))
+	}
+
 	os.Remove("out/go.sum")
 	os.Remove("out/go.mod")
 }
