@@ -27,7 +27,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	code, dependencies := transpile(string(file))
+	files, dependencies := transpile(string(file))
 
 	os.Mkdir("out", 0755)
 	removeTempFiles()
@@ -38,10 +38,15 @@ func main() {
 		fmt.Printf("Installed %s", dependencie)
 	}
 
-	err = os.WriteFile("out/main.go", []byte(code), 0644)
-	if err != nil {
-		log.Fatal(err)
+
+	for _, file := range files {
+		err = os.WriteFile(fmt.Sprintf("out/%s", file.name), []byte(file.content), 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Created %s", file.name)
 	}
+
 	tidyCommand()
 
 	cmd := exec.Command("go", "build", "-o", "binary", "main.go");
