@@ -29,8 +29,13 @@ func main() {
 
 	files, dependencies := transpile(string(file))
 
+	fileNames := make([]string, 0, len(files))
+	for _, file := range files {
+		fileNames = append(fileNames, file.name)
+	}
+
 	os.Mkdir("out", 0755)
-	removeTempFiles()
+	removeTempFiles(fileNames)
 	initProject()
 
 	for _, dependencie := range dependencies {
@@ -58,8 +63,11 @@ func main() {
 	removeTempFiles()
 }
 
-func removeTempFiles() {
-	os.Remove("out/main.go")
+func removeTempFiles(files []string) {
+	for _, file := range files {
+		os.Remove(fmt.Sprintf("out/%s", file))
+	}
+
 	os.Remove("out/go.sum")
 	os.Remove("out/go.mod")
 }
