@@ -49,7 +49,7 @@ func main() {
 
 	tidyCommand()
 
-	cmd := exec.Command("go", "build", "-o", "binary", "main.go");
+	cmd := exec.Command("go", "build", "-o", "binary", ".");
 	cmd.Dir = "out/"
 	out, err := cmd.CombinedOutput()
 	if err != nil {
