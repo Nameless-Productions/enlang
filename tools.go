@@ -16,6 +16,22 @@ func getTools() []anthropic.ToolUnionParam {
 				},
 			},
 		},
+		{
+			Name: "new-file",
+			Description: anthropic.String("Create a new file"),
+			InputSchema: anthropic.ToolInputSchemaParam{
+				Properties: map[string]any{
+					"name": map[string]any{
+						"type": "string",
+						"description": "The name of the file (ex.: main.go)",
+					},
+					"content": map[string]any{
+						"type": "string",
+						"description": "The Go code of the file",
+					},
+				},
+			},
+		},
 	}
 
 	tools := make([]anthropic.ToolUnionParam, len(toolParams))
