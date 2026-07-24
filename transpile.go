@@ -13,7 +13,7 @@ func transpile(code string) (string, []string) {
 	_ = client
 
 	msg, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-		MaxTokens: 1024,
+		MaxTokens: 2048,
 		Messages: []anthropic.MessageParam{
 			anthropic.NewUserMessage(anthropic.NewTextBlock(code)),
 		},
